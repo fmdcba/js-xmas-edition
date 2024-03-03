@@ -54,7 +54,7 @@ function validarDescripcionRegalo(descripcionRegalo) {
   }
 
   if(!/^[a-z0-9]+$/i.test(descripcionRegalo)) {
-    return 'ESte campo solo acepta letras';
+    return 'Este campo solo acepta letras y numeros';
   }
 
   return '';
