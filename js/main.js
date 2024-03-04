@@ -14,7 +14,9 @@ document.querySelector('#enviar-carta').onclick = function(e) {
     ['descripcion-regalo']: errorDescripcionRegalo
   }
 
-  manejarErrores(errores);
+  if (manejarErrores(errores) === 0) {
+    enviarFormulario();
+  };
 
   e.preventDefault();
 }
@@ -26,20 +28,43 @@ function manejarErrores(errores){
 
   keys.forEach(function(key) {
     const $contenedorErrores = document.querySelector('#errores');
+    const $errorAnterior = document.querySelector(`#error-${key}`);
     const error = errores[key]
 
     if(error) {
+      $form[key].className = 'error';
       contador++;
 
-      $form[key].className = 'error';
+      if($errorAnterior === null) {
 
-      const $error = document.createElement('li');
-      $error.textContent = error;
-      $contenedorErrores.appendChild($error)
+        const $error = document.createElement('li');
+        $error.id = `error-${key}`;
+        $error.textContent = error;
+        $contenedorErrores.appendChild($error)
+      }
     } else {
       $form[key].className = '';
+
+      if($errorAnterior !== null) {
+        $errorAnterior.remove();
+      }
     }
   })
+
+  return contador;
+}
+
+function enviarFormulario(){
+  document.querySelector('#exito').className = '';
+  document.querySelector('#carta-a-santa').className = 'oculto';
+
+  redirigirAListaDeDeseos();
+}
+
+function redirigirAListaDeDeseos(){
+  setTimeout(function() {
+    window.location.href = 'http://127.0.0.1:5500/wishlist.html'
+  }, 5000);
 }
 
 function validarNombre(nombre) {
