@@ -14,9 +14,32 @@ document.querySelector('#enviar-carta').onclick = function(e) {
     ['descripcion-regalo']: errorDescripcionRegalo
   }
 
-  console.log(errores)
+  manejarErrores(errores);
 
   e.preventDefault();
+}
+
+function manejarErrores(errores){
+  const keys = Object.keys(errores);
+  const $form = document.querySelector('#carta-a-santa');
+  contador = 0;
+
+  keys.forEach(function(key) {
+    const $contenedorErrores = document.querySelector('#errores');
+    const error = errores[key]
+
+    if(error) {
+      contador++;
+
+      $form[key].className = 'error';
+
+      const $error = document.createElement('li');
+      $error.textContent = error;
+      $contenedorErrores.appendChild($error)
+    } else {
+      $form[key].className = '';
+    }
+  })
 }
 
 function validarNombre(nombre) {
